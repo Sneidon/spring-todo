@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="base :: head(~{::title})">
+  <title>List</title>
+</head>
+
+<body th:replace="base :: body(~{::h1}, ~{::section})">
+  <h1>List</h1>
+  <section>
+    <div>
+        <table class="table table-striped" id="items" th:object="${items}">
+          <thead>
+            <tr>
+              <th style="width: 80%">Tasks</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="item,i : *{items}" th:class="${item.complete}? active : warning">
+              <input type="hidden" th:field="*{items[__${i.index}__].id}" />
+              <td th:text="${item.title}">Item_name</td><input type="hidden"
+                th:field="*{items[__${i.index}__].title}" />
+
+              <td>
+                <form class="form-horizontal" role="form" th:action="@{'/complete?id=' + ${item.id}}" method="POST">
+                    <button type="submit" class="btn btn-primary">Complete</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <hr/>
+
+    <div>
+      <a th:href="@{'/add'}">Add Task</a>
+    </div>
+  </section>
+
+</body>
+
+</html>
